@@ -7,13 +7,17 @@ var timerSlider = null;
 
     $(document).ready(function() {
 
+        if ((navigator.platform.toLowerCase().indexOf('mac') != -1) || (navigator.userAgent.match(/iPad/i) != null) || (navigator.userAgent.toLowerCase().match(/android/i) != null)) {
+            $('head').append('<link rel="stylesheet" href="css/style-fix.css">');
+        }
+
         $('.logo a').click(function() {
-            $.scrollTo(0, 300);
+            $.scrollTo(0, 500);
             return false;
         });
 
         $('header nav a, .link-inner').click(function() {
-            $.scrollTo($('.' + $(this).attr('href').replace('#', '')), 300);
+            $.scrollTo($('.' + $(this).attr('href').replace('#', '')), 500);
             return false;
         });
 
@@ -109,20 +113,38 @@ var timerSlider = null;
             }
         );
 
+        var viewFilter = '';
+        $('.portfolio-tabs li').each(function() {
+            if (!$(this).find('a').hasClass('portfolio-group-all')) {
+                viewFilter += '.' + $(this).find('a').attr('class') + ', ';
+            }
+        });
+        viewFilter = viewFilter.substr(0, viewFilter.length - 2);
+
+        $('.portfolio-list').isotope({
+            itemSelector: '.portfolio-list-item',
+            filter: viewFilter
+        });
+
         $('.portfolio-tabs a').click(function() {
             var curLink = $(this);
             var curLi = curLink.parent();
             if (!curLi.hasClass('active')) {
+                viewFilter = '';
                 if (curLink.hasClass('portfolio-group-all')) {
-                    $('.portfolio-list a').show();
+                    $('.portfolio-tabs li').each(function() {
+                        if (!$(this).find('a').hasClass('portfolio-group-all')) {
+                            viewFilter += '.' + $(this).find('a').attr('class') + ', ';
+                        }
+                    });
                 } else {
-                    var curClass = curLink.attr('class');
-                    $('.portfolio-list a[class="' + curClass + '"]').show();
-                    $('.portfolio-list a[class!="' + curClass + '"]').hide();
+                    viewFilter += '.' + curLink.attr('class') + ', ';
                 }
+                viewFilter = viewFilter.substr(0, viewFilter.length - 2);
+                $('.portfolio-tabs li.active').removeClass('active')
+                curLi.addClass('active');
+                $('.portfolio-list').isotope({filter:viewFilter});
             }
-            $('.portfolio-tabs li.active').removeClass('active')
-            curLi.addClass('active');
             return false;
         });
 

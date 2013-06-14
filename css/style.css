@@ -116,6 +116,7 @@ nav ul li a:hover {color:#a9c740}
 .services-title-inner strong {font-weight:normal; background:#8fad25; position:relative}
 .services-title-inner span {position:relative; background:#8fad25; color:#fff; left:12px}
 .services-title-inner em {font-style:normal; background:#8fad25; position:relative; left:-6px}
+.services-title-inner small {position:relative; font-size:40px; line-height:40px}
 .services-detail .services-title {font-size:30px; line-height:30px; left:0; top:17px; width:320px}
 .services-detail .services-title-inner {height:auto}
 .services-detail .services-title-inner strong {background:none}
